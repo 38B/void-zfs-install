@@ -62,10 +62,6 @@ partition () {
     mkfs.vfat "$EFI"
 }
 
-create_zfs_key () {
-    dd if=/dev/urandom of=/etc/keystore/zroot.key bs=32 count=1
-}
-
 create_pool () {
     # ZFS part
     ZFS="$DISK-part3"
@@ -107,23 +103,6 @@ create_system_dataset () {
     print "Set ZFS bootfs"
     zpool set bootfs="zroot/ROOT/$1" zroot
     zfs mount zroot/ROOT/"$1"
-}
-
-create_keystore_dataset () {
-    print "Create keystore"
-    zfs create -V 50m zroot/keystore
-    print "Format keystore crypto"
-    cryptsetup luksFormat /dev/zvol/zroot/keystore
-    cryptsetup open --type luks /dev/zvol/zroot/keystore keystore
-    print "Wipe keystore"
-    cp /dev/zero /dev/mapper/keystore
-    print "Format keystore filesystem"
-    mkfs.ext2 /dev/mapper/keystore
-    print "Add keystore to crypttab"
-    echo 'keystore /dev/zvol/zroot/keystore none' >> /etc/crypttab
-    mkdir /etc/keystore
-    echo '/dev/mapper/keystore /etc/keystore ext2 dmask=077,fmask=177,ro 0 2' >> /etc/fstab
-    mount -o rw /etc/keystore
 }
 
 create_home_dataset () {
@@ -171,10 +150,8 @@ select_disk
 
 wipe
 partition
-create_zfs_key
 create_pool
 create_root_dataset
-create_keystore_dataset
 
 ask "Name of the slash dataset ?"
 name_reply="$REPLY"
