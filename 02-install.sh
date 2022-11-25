@@ -75,7 +75,6 @@ echo "$hostname" > /mnt/etc/hostname
 print 'Copy ZFS files'
 cp /etc/hostid /mnt/etc/hostid
 cp /etc/zfs/zpool.cache /mnt/etc/zfs/zpool.cache
-cp /etc/zfs/zroot.key /mnt/etc/zfs
 
 # Configure iwd
 cat > /mnt/etc/iwd/main.conf <<"EOF"
@@ -97,14 +96,14 @@ EOF
 
 # Prepare locales and keymap
 print 'Prepare locales and keymap'
-echo 'KEYMAP=fr' > /mnt/etc/vconsole.conf
-echo 'fr_FR.UTF-8 UTF-8' > /mnt/etc/default/libc-locales
-echo 'LANG="fr_FR.UTF-8"' > /mnt/etc/locale.conf
+echo 'KEYMAP=us' > /mnt/etc/vconsole.conf
+echo 'en_US.UTF-8 UTF-8' > /mnt/etc/default/libc-locales
+echo 'LANG="en_US.UTF-8"' > /mnt/etc/locale.conf
 
 # Configure system
 cat >> /mnt/etc/rc.conf << EOF
-KEYMAP="fr"
-TIMEZONE="Europe/Paris"
+KEYMAP="us"
+TIMEZONE="America/New_York"
 HARDWARECLOCK="UTC"
 EOF
 
@@ -115,7 +114,7 @@ hostonly="yes"
 nofsck="yes"
 add_dracutmodules+=" zfs "
 omit_dracutmodules+=" btrfs resume "
-install_items+=" /etc/zfs/zroot.key "
+install_items+=""
 EOF
 
 ### Configure username
@@ -205,7 +204,7 @@ EOF
 
 mkdir -p /mnt/etc/cmdline.d/
 cat > /mnt/etc/cmdline.d/keymap.conf <<EOF
-rd.vconsole.keymap=fr
+rd.vconsole.keymap=us
 EOF
 
 # Set cmdline
@@ -216,7 +215,7 @@ print 'Generate zbm'
 chroot /mnt/ /bin/bash -e <<"EOF"
 
   # Export locale
-  export LANG="fr_FR.UTF-8"
+  export LANG="en_US.UTF-8"
 
   # Generate initramfs, zfsbootmenu
   xbps-reconfigure -fa
