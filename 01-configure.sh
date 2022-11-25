@@ -171,6 +171,7 @@ select_disk
 
 wipe
 partition
+create_zfs_key
 create_pool
 create_root_dataset
 create_keystore_dataset
