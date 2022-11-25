@@ -48,7 +48,8 @@ echo "GUMMIBOOT_DISABLE=1" > /mnt/etc/default/gummiboot
 # Install packages
 print 'Install packages'
 packages=(
-  intel-ucode
+  linux-firmware-amd
+#  intel-ucode
   zfs
   zfsbootmenu
   efibootmgr
@@ -112,8 +113,8 @@ print 'Configure dracut'
 cat > /mnt/etc/dracut.conf.d/zol.conf <<"EOF"
 hostonly="yes"
 nofsck="yes"
-add_dracutmodules+=" zfs "
-omit_dracutmodules+=" btrfs resume "
+add_dracutmodules+=" zfs amdgpu "
+omit_dracutmodules+=" btrfs resume nouveau "
 install_items+=" "
 EOF
 
