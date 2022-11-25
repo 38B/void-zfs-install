@@ -114,7 +114,7 @@ hostonly="yes"
 nofsck="yes"
 add_dracutmodules+=" zfs "
 omit_dracutmodules+=" btrfs resume "
-install_items+=""
+install_items+=" "
 EOF
 
 ### Configure username
