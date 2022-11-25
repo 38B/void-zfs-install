@@ -3,7 +3,7 @@
 Boot latest [hrmpf void linux iso](https://github.com/leahneukirchen/hrmpf/releases/latest)
 
 ```bash
-$ loadkeys en
+$ loadkeys us
 $ wpa_passphrase $SSID $PASSWORD >> /etc/wpa_supplicant/wpa_supplicant-$INTERFACE.conf
 $ wpa_supplicant -B -i $INTERFACE -c /etc/wpa_supplicant/wpa_supplicant-$INTERFACE.conf
 $ sv restart dhcpcd
