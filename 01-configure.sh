@@ -76,8 +76,8 @@ create_pool () {
                  -O xattr=sa                              \
                  -O dnodesize=legacy                      \
                  -O encryption=aes-256-gcm                \
-                 -O keyformat=raw                         \
-                 -O keylocation=file:///etc/keystore/zroot.key \
+                 -O keyformat=passphrase                  \
+                 -O keylocation=prompt                    \
                  -O normalization=formD                   \
                  -O mountpoint=none                       \
                  -O canmount=off                          \
